@@ -2,8 +2,14 @@ import { screen, waitFor } from "@testing-library/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { AuthenticationContext } from "../../../contexts/authentication";
-import { MemeFeedPage } from "../../../routes/_authentication/index";
+import { MemeFeedPage } from "../../../pages/MemeFeedPage";
 import { renderWithRouter } from "../../utils";
+import userEvent from "@testing-library/user-event";
+
+beforeAll(() => {
+  // Mock the scrollTo method globally
+  window.scrollTo = () => {};
+});
 
 describe("routes/_authentication/index", () => {
   describe("MemeFeedPage", () => {
@@ -33,9 +39,10 @@ describe("routes/_authentication/index", () => {
     }
 
     it("should fetch the memes and display them with their comments", async () => {
+      const { click } = userEvent.setup();
       renderMemeFeedPage();
 
-      await waitFor(() => {
+      await waitFor(async () => {
         // We check that the right author's username is displayed
         expect(
           screen.getByTestId("meme-author-dummy_meme_id_1")
@@ -70,6 +77,7 @@ describe("routes/_authentication/index", () => {
           screen.getByTestId("meme-comments-count-dummy_meme_id_1")
         ).toHaveTextContent("3 comments");
 
+        await click(screen.getByTestId("meme-comments-count-dummy_meme_id_1"));
         // We check that the right comments with the right authors are displayed
         expect(
           screen.getByTestId(

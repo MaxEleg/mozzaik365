@@ -1,5 +1,6 @@
 import { http, HttpResponse } from "msw";
 import { Comment } from "../../src/domains/meme/comment/types";
+import { GetUsersByIdsResponse } from "../../src/domains/user/types";
 
 const users = {
   dummy_user_id_1: {
@@ -89,6 +90,15 @@ export const handlers = [
         status: 404,
       });
     }
+  ),
+  http.get<{ id: string }>(
+    "https://fetestapi.int.mozzaik365.net/api/users?ids=dummy_user_id_1",
+    async () =>
+      HttpResponse.json<GetUsersByIdsResponse>([
+        users.dummy_user_id_1,
+        users.dummy_user_id_2,
+        users.dummy_user_id_3,
+      ])
   ),
   http.get("https://fetestapi.int.mozzaik365.net/api/memes", async () => {
     return HttpResponse.json({

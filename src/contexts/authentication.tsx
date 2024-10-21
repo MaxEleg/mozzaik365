@@ -7,6 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { setMemeApiToken } from "../libs/axios";
 
 export type AuthenticationState =
   | {
@@ -25,7 +26,7 @@ export type Authentication = {
 };
 
 export const AuthenticationContext = createContext<Authentication | undefined>(
-  undefined,
+  undefined
 );
 
 export const AuthenticationProvider: React.FC<PropsWithChildren> = ({
@@ -42,8 +43,9 @@ export const AuthenticationProvider: React.FC<PropsWithChildren> = ({
         token,
         userId: jwtDecode<{ id: string }>(token).id,
       });
+      setMemeApiToken(token);
     },
-    [setState],
+    [setState]
   );
 
   const signout = useCallback(() => {
@@ -52,7 +54,7 @@ export const AuthenticationProvider: React.FC<PropsWithChildren> = ({
 
   const contextValue = useMemo(
     () => ({ state, authenticate, signout }),
-    [state, authenticate, signout],
+    [state, authenticate, signout]
   );
 
   return (
@@ -66,7 +68,7 @@ export function useAuthentication() {
   const context = useContext(AuthenticationContext);
   if (!context) {
     throw new Error(
-      "useAuthentication must be used within an AuthenticationProvider",
+      "useAuthentication must be used within an AuthenticationProvider"
     );
   }
   return context;
