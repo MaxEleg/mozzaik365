@@ -1,13 +1,14 @@
-import { Box, Text, useDimensions } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useMemo, useRef } from "react";
+import { useDimensions } from "@chakra-ui/react";
 
 export type MemePictureProps = {
   pictureUrl: string;
-  texts: {
+  texts: ReadonlyArray<{
     content: string;
     x: number;
     y: number;
-  }[];
+  }>;
   dataTestId?: string;
 };
 
@@ -15,14 +16,14 @@ const REF_WIDTH = 800;
 const REF_HEIGHT = 450;
 const REF_FONT_SIZE = 36;
 
-export const MemePicture: React.FC<MemePictureProps> = ({
+export const MemeView: React.FC<MemePictureProps> = ({
   pictureUrl,
   texts: rawTexts,
-  dataTestId = '',
+  dataTestId = "",
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const dimensions = useDimensions(containerRef, true);
-  const boxWidth = dimensions?.borderBox.width;
+  const dimensions = useDimensions(containerRef);
+  const boxWidth = dimensions?.borderBox?.width;
 
   const { height, fontSize, texts } = useMemo(() => {
     if (!boxWidth) {
