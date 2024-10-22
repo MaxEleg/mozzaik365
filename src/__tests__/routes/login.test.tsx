@@ -1,7 +1,7 @@
 import { vi } from "vitest";
 import { act, fireEvent, waitFor, screen } from "@testing-library/react";
 import { renderWithRouter } from "../utils";
-import { LoginPage } from "../../routes/login";
+import { LoginPage } from "../../pages/Login";
 import {
   AuthenticationContext,
   AuthenticationState,
@@ -99,7 +99,7 @@ describe("routes/login", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText(/an unknown error occured, please try again later/i),
+          screen.getByText(/an unknown error occured, please try again later/i)
         ).toBeInTheDocument();
       });
     });
@@ -119,7 +119,7 @@ describe("routes/login", () => {
         expect(onBeforeNavigateMock).toHaveBeenCalledWith(
           expect.objectContaining({
             toLocation: expect.objectContaining({ pathname: "/" }),
-          }),
+          })
         );
       });
     });
@@ -140,7 +140,7 @@ describe("routes/login", () => {
         expect(onBeforeNavigateMock).toHaveBeenCalledWith(
           expect.objectContaining({
             toLocation: expect.objectContaining({ pathname: "/profile" }),
-          }),
+          })
         );
       });
     });
