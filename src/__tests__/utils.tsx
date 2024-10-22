@@ -12,10 +12,7 @@ import {
 import { render } from "@testing-library/react";
 import { TestProviders } from "./TestProviders";
 
-function createTestRouter(
-  component: (...args: any) => React.ReactNode,
-  currentUrl: string
-) {
+function createTestRouter(component: React.FC, currentUrl: string) {
   const rootRoute = createRootRoute({
     component: Outlet,
   });
@@ -35,7 +32,7 @@ function createTestRouter(
 }
 
 type RenderWithRouterParams = {
-  component: (...args: any) => React.ReactNode;
+  component: React.FC;
   Wrapper?: React.ComponentType<PropsWithChildren>;
   onNavigate?: ListenerFn<RouterEvents["onBeforeNavigate"]>;
   currentUrl?: string;

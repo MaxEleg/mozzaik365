@@ -22,7 +22,10 @@ export const useHandleFormSubmit = () => {
     await mutateAsync({
       picture: values.picture?.file,
       description: values.description || "",
-      texts: values.texts,
+      texts: values.texts?.map((text) => ({
+        ...text,
+        content: text.content || "",
+      })),
     });
 
     toast({

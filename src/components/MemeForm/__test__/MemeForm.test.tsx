@@ -39,7 +39,7 @@ describe("MemeForm", () => {
 
     expect(screen.getByRole("button", { name: "Add a caption" }));
 
-    type(
+    await type(
       screen.getByPlaceholderText("Type your description here..."),
       "my description"
     );
