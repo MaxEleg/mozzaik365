@@ -16,11 +16,20 @@ import { PictureEditor } from "../../components/PictureEditor";
 import { Plus, Trash } from "@phosphor-icons/react";
 import { MemeFormType } from "./types";
 import { useHandleFormSubmit } from "./hooks";
+import { memeFormSchema } from "./validation";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export const MemeForm = () => {
   // hooks
-  const formData = useForm<MemeFormType>();
-  const { register, setValue, handleSubmit } = formData;
+  const formData = useForm<MemeFormType>({
+    resolver: yupResolver(memeFormSchema),
+  });
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = formData;
   const arrayFields = useFieldArray({
     control: formData.control,
     name: "texts",
@@ -67,7 +76,16 @@ export const MemeForm = () => {
                 memePicture={
                   picture?.url
                     ? {
+                        onPositionChange: (
+                          index: number,
+                          x: number,
+                          y: number
+                        ) => {
+                          setValue(`texts.${index}.x`, x);
+                          setValue(`texts.${index}.y`, y);
+                        },
                         pictureUrl: picture.url,
+                        enableEdition: true,
                         texts: texts || [],
                       }
                     : undefined
@@ -80,6 +98,7 @@ export const MemeForm = () => {
               </Heading>
               <Textarea
                 {...register("description")}
+                borderColor={errors.description ? "red" : undefined}
                 placeholder="Type your description here..."
               />
             </Box>
@@ -102,6 +121,7 @@ export const MemeForm = () => {
                   <Input
                     id={`texts.${index}.content`}
                     aria-label={`text ${index + 1}`}
+                    borderColor={errors.texts?.[index] ? "red" : undefined}
                     {...register(`texts.${index}.content`)}
                     mr={1}
                   />
