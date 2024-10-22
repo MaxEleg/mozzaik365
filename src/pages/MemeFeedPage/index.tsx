@@ -8,7 +8,7 @@ import { useGetUser, useGetUsers } from "../../domains/user/hooks";
 
 export const MemeFeedPage: React.FC = () => {
   const { ref, data: memes, isLoading, hasNextPage } = useGetMemesOnScrollEnd();
-  const user = useGetUser();
+  const { data: user } = useGetUser();
   const [openedCommentSectionId, setOpenedCommentSection] = useState<
     string | null
   >(null);
