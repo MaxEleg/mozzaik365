@@ -4,10 +4,12 @@ import {
   PropsWithChildren,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
 import { setMemeApiToken } from "../libs/axios";
+import { MEME_API_TOKEN_KEY } from "../config/constants";
 
 export type AuthenticationState =
   | {
@@ -50,12 +52,20 @@ export const AuthenticationProvider: React.FC<PropsWithChildren> = ({
 
   const signout = useCallback(() => {
     setState({ isAuthenticated: false });
+    localStorage.removeItem(MEME_API_TOKEN_KEY);
   }, [setState]);
 
   const contextValue = useMemo(
     () => ({ state, authenticate, signout }),
     [state, authenticate, signout]
   );
+
+  useEffect(() => {
+    const token = localStorage.getItem(MEME_API_TOKEN_KEY);
+    if (token) {
+      authenticate(token);
+    }
+  }, [authenticate]);
 
   return (
     <AuthenticationContext.Provider value={contextValue}>

@@ -11,6 +11,7 @@ import {
   AuthenticationProvider,
   useAuthentication,
 } from "./contexts/authentication";
+import { useLogoutOnUnauthorizedToken } from "./hooks";
 
 // Create a new router instance
 const router = createRouter({
@@ -29,6 +30,7 @@ const queryClient = new QueryClient();
 
 function InnerApp() {
   const { state } = useAuthentication();
+  useLogoutOnUnauthorizedToken();
   return <RouterProvider router={router} context={{ authState: state }} />;
 }
 
@@ -44,6 +46,6 @@ if (!rootElement.innerHTML) {
           </AuthenticationProvider>
         </ChakraProvider>
       </QueryClientProvider>
-    </StrictMode>,
+    </StrictMode>
   );
 }

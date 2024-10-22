@@ -1,25 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import { jwtDecode } from "jwt-decode";
 import { Flex, StackDivider, VStack } from "@chakra-ui/react";
-import { useAuthToken } from "../../contexts/authentication";
 import { Loader } from "../../components/Loader";
 import { useState } from "react";
 import { useGetMemesOnScrollEnd } from "./hooks";
 import { MemeItem } from "./MemeItem";
-import { getUserById } from "../../api";
 import { useGetMemesAuthorsIds } from "../../domains/meme/author/hooks";
-import { useGetUsers } from "../../domains/user/hooks";
+import { useGetUser, useGetUsers } from "../../domains/user/hooks";
 
 export const MemeFeedPage: React.FC = () => {
-  const token = useAuthToken();
   const { ref, data: memes, isLoading, hasNextPage } = useGetMemesOnScrollEnd();
-
-  const { data: user } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => {
-      return await getUserById(token, jwtDecode<{ id: string }>(token).id);
-    },
-  });
+  const user = useGetUser();
   const [openedCommentSectionId, setOpenedCommentSection] = useState<
     string | null
   >(null);

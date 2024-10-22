@@ -1,4 +1,5 @@
 import axios from "axios";
+import { MEME_API_TOKEN_KEY } from "../../config/constants";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 
@@ -12,6 +13,7 @@ export const memeApi = axios.create({
 
 export const setMemeApiToken = (token: string) => {
   memeApi.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  localStorage.setItem(MEME_API_TOKEN_KEY, token);
 };
 
 export type PaginatedMemeApiResponse<T> = {

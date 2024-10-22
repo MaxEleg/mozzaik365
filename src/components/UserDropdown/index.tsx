@@ -8,23 +8,13 @@ import {
   Icon,
   Flex,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 import { CaretDown, CaretUp, SignOut } from "@phosphor-icons/react";
 import { useAuthentication } from "../../contexts/authentication";
-import { getUserById } from "../../api";
+import { useGetUser } from "../../domains/user/hooks";
 
 export const UserDropdown: React.FC = () => {
   const { state, signout } = useAuthentication();
-  const { data: user, isLoading } = useQuery({
-    queryKey: ["user", state.isAuthenticated ? state.userId : "anon"],
-    queryFn: () => {
-      if (state.isAuthenticated) {
-        return getUserById(state.token, state.userId);
-      }
-      return null;
-    },
-    enabled: state.isAuthenticated,
-  });
+  const { data: user, isLoading } = useGetUser();
 
   if (!state.isAuthenticated || isLoading) {
     return null;
