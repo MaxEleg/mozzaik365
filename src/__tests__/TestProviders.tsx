@@ -2,7 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthenticationContext } from "../contexts/authentication";
 
-export const TestProviders = ({ children }: { children: React.ReactNode }) => (
+export const TestProviders = ({ children }: { children?: React.ReactNode }) => (
   <ChakraProvider>
     <QueryClientProvider client={new QueryClient()}>
       <AuthenticationContext.Provider

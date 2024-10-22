@@ -35,7 +35,7 @@ export const PictureEditor: React.FC<MemeEditorProps> = ({
         borderRadius={9}
         px={1}
       >
-        <input {...getInputProps()} />
+        <input data-testid="picture-input" {...getInputProps()} />
         {memePicture ? (
           <WithPicture memePicture={memePicture} open={open} />
         ) : (

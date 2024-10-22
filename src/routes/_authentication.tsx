@@ -1,20 +1,6 @@
-import {
-  createFileRoute,
-  Navigate,
-  Outlet,
-  useLocation,
-} from "@tanstack/react-router";
-import { useAuthentication } from "../contexts/authentication";
+import { createFileRoute } from "@tanstack/react-router";
+import { Authentication } from "../pages/Authentication";
 
 export const Route = createFileRoute("/_authentication")({
-  component: () => {
-    const { state } = useAuthentication();
-    const { pathname } = useLocation();
-
-    if (!state.isAuthenticated) {
-      return <Navigate to="/login" search={{ redirect: pathname }} replace />;
-    }
-
-    return <Outlet />;
-  },
+  component: Authentication,
 });

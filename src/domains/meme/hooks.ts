@@ -1,7 +1,7 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { GetMemesResponse } from "./types";
 import { memeQueryKeys } from "./memeQueryKeys";
-import { getMemes } from "./api";
+import { getMemes, postMeme } from "./api";
 import { QueryParams } from "../../libs/react-query/types";
 import { useMemo } from "react";
 import { getPaginatedNextPage } from "../../utils";
@@ -23,4 +23,10 @@ export const useGetInfiniteMemes = (options?: QueryParams) => {
       [data]
     ),
   };
+};
+
+export const usePostMeme = () => {
+  return useMutation({
+    mutationFn: postMeme,
+  });
 };
