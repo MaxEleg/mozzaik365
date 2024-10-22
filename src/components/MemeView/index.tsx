@@ -10,7 +10,7 @@ export type MemePictureProps = {
     x: number;
     y: number;
   }>;
-  onPositionChange: (index: number, x: number, y: number) => void;
+  onPositionChange?: (index: number, x: number, y: number) => void;
   dataTestId?: string;
 };
 
